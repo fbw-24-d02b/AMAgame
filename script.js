@@ -36,14 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let arr = row.filter(val => val);
         let missing = gridSize - arr.length;
         let zeros = Array(missing).fill(0);
-        return zeros.concat(arr);
+        return arr.concat(zeros);  // Slide to the left
     }
 
     function combineRow(row) {
-        for (let i = gridSize - 1; i > 0; i--) {
-            if (row[i] === row[i - 1]) {
+        for (let i = 0; i < gridSize - 1; i++) {
+            if (row[i] === row[i + 1] && row[i] !== 0) {
                 row[i] *= 2;
-                row[i - 1] = 0;
+                row[i + 1] = 0;
             }
         }
         return row;
@@ -52,70 +52,62 @@ document.addEventListener('DOMContentLoaded', () => {
     function moveRight() {
         for (let r = 0; r < gridSize; r++) {
             let row = grid[r];
-            row = slideRow(row);
+            row = slideRow(row.reverse()); // Reverse row to slide and combine for right
             row = combineRow(row);
-            row = slideRow(row);
-            grid[r] = row;
+            grid[r] = slideRow(row).reverse(); // Reverse back after sliding
         }
-    }
-
-    function rotateGrid() {
-        let newGrid = Array(gridSize).fill().map(() => Array(gridSize).fill(0));
-        for (let r = 0; r < gridSize; r++) {
-            for (let c = 0; c < gridSize; c++) {
-                newGrid[c][gridSize - 1 - r] = grid[r][c];
-            }
-        }
-        grid = newGrid;
     }
 
     function moveLeft() {
-        rotateGrid();
-        rotateGrid();
-        moveRight();
-        rotateGrid();
-        rotateGrid();
+        for (let r = 0; r < gridSize; r++) {
+            let row = grid[r];
+            row = slideRow(row); // Slide left
+            row = combineRow(row);
+            grid[r] = slideRow(row); // Slide again after combining
+        }
     }
 
     function moveUp() {
-        rotateGrid();
-        rotateGrid();
-        rotateGrid();
-        moveRight();
-        rotateGrid();
+        for (let c = 0; c < gridSize; c++) {
+            let column = grid.map(row => row[c]);
+            column = slideRow(column); // Slide up
+            column = combineRow(column);
+            column = slideRow(column); // Slide again after combining
+            for (let r = 0; r < gridSize; r++) {
+                grid[r][c] = column[r];
+            }
+        }
     }
 
     function moveDown() {
-        rotateGrid();
-        moveRight();
-        rotateGrid();
-        rotateGrid();
-        rotateGrid();
+        for (let c = 0; c < gridSize; c++) {
+            let column = grid.map(row => row[c]);
+            column = slideRow(column.reverse()); // Reverse column to slide down
+            column = combineRow(column);
+            column = slideRow(column).reverse(); // Reverse back after sliding
+            for (let r = 0; r < gridSize; r++) {
+                grid[r][c] = column[r];
+            }
+        }
     }
 
     function control(e) {
         switch (e.key) {
             case 'ArrowRight':
                 moveRight();
-                addTile();
-                drawGrid();
                 break;
             case 'ArrowLeft':
                 moveLeft();
-                addTile();
-                drawGrid();
                 break;
             case 'ArrowUp':
                 moveUp();
-                addTile();
-                drawGrid();
                 break;
             case 'ArrowDown':
                 moveDown();
-                addTile();
-                drawGrid();
                 break;
         }
+        addTile();
+        drawGrid();
     }
 
     document.addEventListener('keydown', control);
