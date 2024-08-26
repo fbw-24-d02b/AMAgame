@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const gridContainer = document.querySelector('#grid-container');
+    const moveCounterElement = document.querySelector('#move-counter');
     const gridSize = 4;
     let grid = Array(gridSize).fill().map(() => Array(gridSize).fill(0));
+    let moveCount = 0;
 
     function addTile() {
         let emptyCells = [];
@@ -23,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let c = 0; c < gridSize; c++) {
                 let value = grid[r][c];
                 let cell = document.querySelector(`#cell-${r * gridSize + c}`);
-                cell.textContent = value === 0 ? '' : value;
+                cell.innerHTML = value === 0 ? '' : `<div>${value}</div>`;
                 cell.className = 'grid-cell';
                 if (value > 0) {
                     cell.classList.add(`tile-${value}`);
@@ -31,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
+    
 
     function slideRow(row) {
         let arr = row.filter(val => val);
@@ -91,6 +94,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function updateMoveCounter() {
+        moveCount += 1;
+        moveCounterElement.textContent = `Moves: ${moveCount}`;
+    }
+
     function control(e) {
         switch (e.key) {
             case 'ArrowRight':
@@ -105,9 +113,12 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'ArrowDown':
                 moveDown();
                 break;
+            default:
+                return; // If a key other than arrow keys is pressed, return early
         }
         addTile();
         drawGrid();
+        updateMoveCounter();
     }
 
     document.addEventListener('keydown', control);
