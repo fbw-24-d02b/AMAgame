@@ -1,0 +1,200 @@
+/* Sayfanın tamamının stil ayarları */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0; /* Arka plan rengi */
+}
+
+/* Başlangıç ekranı stil ayarları */
+#start-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    background-color: #fff; /* Arka plan rengi beyaz */
+    border-radius: 10px; /* Köşeleri yuvarlatma */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Gölge efekti */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Merkezdeki içeriğin stil ayarları */
+.center-content {
+    max-width: 400px; /* Maksimum genişlik */
+    padding: 20px; /* İç boşluk */
+    box-sizing: border-box; /* Kenar boşluklarını ve dolguyi genişliğe dahil et */
+}
+
+/* Düğme stil ayarları */
+button {
+    margin-top: 20px; /* Üst boşluk */
+    padding: 10px 20px; /* İç boşluk */
+    font-size: 16px; /* Yazı boyutu */
+    border: none; /* Kenarlık yok */
+    border-radius: 5px; /* Köşeleri yuvarlatma */
+    background-color: #4CAF50; /* Başlangıç rengi yeşil */
+    color: white; /* Yazı rengi beyaz */
+    cursor: pointer; /* İmleci işaretçi yapmak için */
+    transition: background-color 0.3s, transform 0.2s; /* Geçiş efektleri eklendi */
+}
+
+button:hover {
+    background-color: #00bcd4; /* Hover durumunda renk değişimi turkuaz */
+    transform: scale(1.05); /* Hover durumunda düğmeyi büyütme */
+}
+
+/* Oyun ekranının stil ayarları */
+#game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    background-color: #e0e0e0; /* Arka plan rengi açık gri */
+    border-radius: 10px; /* Köşeleri yuvarlatma */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Gölge efekti */
+    margin-top: 0px;
+}
+
+/* Oyun başlığı ve skoru içeren stil ayarları */
+#game-container h1 {
+    margin: 40px auto; /* Otomatik olarak ortalamak için margin */
+    background-color: #00bcd4; /* Arka plan rengi turkuaz */
+    color: rgb(22, 17, 17); /* Yazı rengi koyu gri */
+    padding: 30px 10px; /* İç boşluk */
+    border-radius: 15px; /* Köşeleri yuvarlatma */
+    display: inline-block; /* Başlık etrafında arka plan rengini göstermek için */
+    width: 500px; /* Başlık genişliği */
+    text-align: center; /* Yazıyı ortalamak için */
+}
+
+#game-container h2 {
+    margin: 40px; /* Üst ve alt boşluk */
+}
+
+/* Oyun bitti ekranının stil ayarları */
+#game-over-screen {
+    position: fixed; /* Sabit pozisyon */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Ekranın tamamını kaplar */
+    height: 100vh; /* Ekranın tamamını kaplar */
+    display: flex; /* Flexbox ile ortalamak için */
+    flex-direction: column; /* Dikeyde düzenleme için */
+    justify-content: center; /* Yatayda ortalar */
+    align-items: center; /* Dikeyde ortalar */
+    background-color: rgba(0, 0, 0, 0.8); /* Koyu arka plan */
+    color: white; /* Yazı rengi beyaz */
+    font-size: 2em; /* Yazı boyutu */
+    text-align: center; /* Yazıyı ortalar */
+    z-index: 1000; /* Üstte görünmesini sağlar */
+    display: none; /* Başlangıçta gizli */
+}
+
+/* Game Over yazısı için stil */
+#game-over-screen h1 {
+    margin: 0; /* Başlık etrafındaki varsayılan boşlukları kaldırır */
+}
+
+/* Skor ve Restart Game düğmesi için stil */
+#game-over-screen .details {
+    margin-top: 20px; /* Game Over yazısının altına boşluk ekler */
+}
+
+/* Skor metni için stil */
+#game-over-screen .score {
+    font-size: 1.5em;
+    margin-bottom: 10px; /* Skor ile Restart Game düğmesi arasına boşluk ekler */
+}
+
+/* Restart Game düğmesi için stil */
+#game-over-screen .restart-button {
+    font-size: 1em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50; /* Yeşil arka plan */
+    color: white; /* Yazı rengi beyaz */
+    cursor: pointer;
+    transition: background-color 0.3s; /* Arka plan rengi geçiş efekti */
+}
+
+#game-over-screen .restart-button:hover {
+    background-color: #45a049; /* Hover durumunda arka plan rengini değiştirir */
+}
+/* Yatay ayırıcı çizgi stil ayarları */
+hr {
+    width: 500px; /* Başlık genişliği ile aynı */
+    border: 3px solid #00bcd4; /* Turkuaz renkli çizgi */
+    margin: 20px auto; /* Yatayda ortalamak için */
+    border-radius: 15px; /* Köşeleri yuvarlatma */
+}
+
+/* Oyun tahtası stil ayarları */
+#board {
+    width: 400px; /* Tahta genişliği */
+    height: 400px; /* Tahta yüksekliği */
+    background-color: #cdc1b5; /* Tahta arka plan rengi */
+    border: 6px solid #bbada0; /* Tahta kenar rengi */
+    border-radius: 10px; /* Köşeleri yuvarlatma */
+    margin: 0 auto; /* Merkezi konumlandırma */
+    display: flex;
+    flex-wrap: wrap; /* Kutu sıralamasını sar */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Tahtaya gölge ekle */
+}
+
+/* Tahta üzerindeki kutuların stil ayarları */
+.box {
+    width: 90px; /* Kutu genişliği */
+    height: 90px; /* Kutu yüksekliği */
+    border: 5px solid #bbada0; /* Kutu kenar rengi */
+    font-size: 40px; /* Metin boyutu */
+    font-weight: bold; /* Metin kalınlığı */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Kutu renkleri ve metin renkleri */
+.box-2 { background-color: #eee4da; color: #727371; } /* 2 kutusu */
+.box-4 { background-color: #ece0ca; color: #727371; } /* 4 kutusu */
+.box-8 { background-color: #f4b17a; color: white; } /* 8 kutusu */
+.box-16 { background-color: #f59575; color: white; } /* 16 kutusu */
+.box-32 { background-color: #f57c5f; color: white; } /* 32 kutusu */
+.box-64 { background-color: #f65d3b; color: white; } /* 64 kutusu */
+.box-128 { background-color: #edce71; color: white; } /* 128 kutusu */
+.box-256 { background-color: #edcc63; color: white; } /* 256 kutusu */
+.box-512 { background-color: #edc651; color: white; } /* 512 kutusu */
+.box-1024 { background-color: #eec744; color: white; } /* 1024 kutusu */
+.box-2048 { background-color: #ecc230; color: white; } /* 2048 kutusu */
+.box-4096 { background-color: #fe3d3d; color: white; } /* 4096 kutusu */
+.box-8192 { background-color: #ff2020; color: white; } /* 8192 kutusu */
+
+/* Başlangıç ekranı stil ayarları */
+#start-screen {
+    text-align: center; /* Başlangıç ekranındaki metni ortalar */
+    padding: 20px; /* Ekranın etrafına iç boşluk ekler */
+}
+
+/* Oyun ekranının stil ayarları */
+#game-container {
+    display: none; /* Oyun ekranı başlangıçta gizli */
+}
+
+/* Oyun bitti ekranının stil ayarları */
+#game-over-screen {
+    text-align: center; /* Oyun bitti ekranındaki metni ortalar */
+    padding: 20px; /* Ekranın etrafına iç boşluk ekler */
+}
