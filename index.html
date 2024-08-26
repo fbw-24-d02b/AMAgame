@@ -8,8 +8,13 @@
 </head>
 <body>
     <div id="game-container">
-        <div id="move-counter">Moves: 0</div> <!-- Move Counter -->
+        <div id="player-name-container">
+            <label for="player-name">Player Name:</label>
+            <input type="text" id="player-name" placeholder="Enter your name">
+        </div>
+        <div id="move-counter">Moves: 0</div>
         <div id="grid-container">
+            <!-- Grid cells will be dynamically generated here -->
             <div class="grid-cell" id="cell-0"></div>
             <div class="grid-cell" id="cell-1"></div>
             <div class="grid-cell" id="cell-2"></div>
@@ -27,8 +32,13 @@
             <div class="grid-cell" id="cell-14"></div>
             <div class="grid-cell" id="cell-15"></div>
         </div>
+        <div id="last-players">
+            <h3>Last 5 Players:</h3>
+            <ul id="players-list">
+                <!-- Player names will be dynamically added here -->
+            </ul>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
-
 </html>

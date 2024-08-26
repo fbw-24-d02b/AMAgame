@@ -17,6 +17,22 @@ body {
     padding: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#player-name-container {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#player-name {
+    font-size: 18px;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    margin-left: 10px;
 }
 
 #move-counter {
@@ -59,6 +75,18 @@ body {
     color: #776e65;
 }
 
+#last-players {
+    margin-top: 15px;
+    color: #776e65;
+}
+
+#last-players ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+}
+
 .tile-2 { background-color: #eee4da; }
 .tile-4 { background-color: #ede0c8; }
 .tile-8 { background-color: #f2b179; color: #f9f6f2; }
@@ -69,4 +97,4 @@ body {
 .tile-256 { background-color: #edcc61; color: #f9f6f2; }
 .tile-512 { background-color: #edc850; color: #f9f6f2; }
 .tile-1024 { background-color: #edc53f; color: #f9f6f2; }
-.tile-2048 { background-color: #edc22e; color: #f9f6f2; }
+.tile-2048 { background-color: #edc22e; color: #53e41a; }
