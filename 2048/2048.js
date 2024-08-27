@@ -1,33 +1,33 @@
-var board; // Oyun tahtası (2D dizi olarak)
-var score = 0; // Oyuncunun puanı
-var rows = 4; // Satır sayısı
-var columns = 4; // Sütun sayısı
 
-// Sayfa yüklendiğinde çalışır
+let board; // Game board (2D array)
+let score = 0; // Player's score
+let rows = 4; // Number of rows
+let columns = 4; // Number of columns
+
+// Runs when the page is loaded
 window.onload = function() {
-    // Daha önce kaydedilmiş yüksek puanı al
     let highScore = localStorage.getItem('highScore') || 0;
-    document.getElementById("highScore").innerText = highScore; // Yüksek puanı göster
+    document.getElementById("highScore").innerText = highScore; // Display the high score
 }
 
-// Oyunu başlatır
+// Starts the game
 function startGame() {
-    document.getElementById("start-screen").style.display = "none"; // Başlangıç ekranını gizle
-    document.getElementById("game-container").style.display = "block"; // Oyun ekranını göster
-    document.getElementById("game-over-screen").style.display = "none"; // Oyun bitti ekranını gizle
+    document.getElementById("start-screen").style.display = "none"; // Hide the start screen
+    document.getElementById("game-container").style.display = "block"; // Show the game screen
+    document.getElementById("game-over-screen").style.display = "none"; // Hide the game over screen
 
-    score = 0; // Puanı sıfırla
-    document.getElementById("score").innerText = score; // Puanı güncelle
+    score = 0; // Reset the score
+    document.getElementById("score").innerText = score; // Update the score
 
     const boardDiv = document.getElementById("board");
     while (boardDiv.firstChild) {
-        boardDiv.removeChild(boardDiv.firstChild); // Tahtadaki tüm eski kutuları temizle
+        boardDiv.removeChild(boardDiv.firstChild); // Remove all existing boxes from the board
     }
 
-    setGame(); // Oyunu başlat
+    setGame(); // Initialize the game
 }
 
-// Oyunun başlangıç durumunu ayarlar
+// Sets up the initial state of the game
 function setGame() {
     board = [
         [0, 0, 0, 0],
@@ -36,206 +36,206 @@ function setGame() {
         [0, 0, 0, 0]
     ];
 
-    // Tahtadaki kutuları oluşturur
+    // Creates boxes on the board
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < columns; c++) {
             let box = document.createElement("div");
             box.id = r.toString() + "-" + c.toString();
             let num = board[r][c];
-            updateBox(box, num); // Kutuyu güncelle
-            document.getElementById("board").append(box); // Kutuyu tahtaya ekle
+            updateBox(box, num); // Update the box
+            document.getElementById("board").append(box); // Add the box to the board
         }
     }
-    setTwo(); // İlk iki "2"yi yerleştir
-    setTwo(); // İkinci bir "2"yi yerleştir
+    setTwo(); // Place the first two "2"s
+    setTwo(); // Place the second "2"
 }
 
-// Kutunun içeriğini ve stilini günceller
+// Updates the content and style of a box
 function updateBox(box, num) {
-    box.innerText = ""; // Kutunun içeriğini temizle
-    box.classList.value = ""; // Mevcut sınıfları temizle
-    box.classList.add("box"); // Genel kutu stilini ekle
+    box.innerText = ""; // Clear the box content
+    box.classList.value = ""; // Clear existing classes
+    box.classList.add("box"); // Add general box style
     if (num > 0) {
-        box.innerText = num.toString(); // Sayıyı kutuya ekle
+        box.innerText = num.toString(); // Add the number to the box
         if (num <= 4096) {
-            box.classList.add("box-" + num.toString()); // Sayıya göre stil ekle
+            box.classList.add("box-" + num.toString()); // Add style based on number
         } else {
-            box.classList.add("box-8192"); // Daha büyük sayılar için özel stil
+            box.classList.add("box-8192"); // Special style for numbers larger than 4096
         }                
     }
 }
 
-// Klavye ok tuşlarına tepki verir
+// Responds to keyboard arrow keys
 document.addEventListener('keyup', (e) => {
     let moved = false;
     if (e.code == "ArrowLeft") {
-        moved = slideLeft(); // Sol kaydırma işlemini yap
+        moved = slideLeft(); // Perform left slide
     }
     else if (e.code == "ArrowRight") {
-        moved = slideRight(); // Sağ kaydırma işlemini yap
+        moved = slideRight(); // Perform right slide
     }
     else if (e.code == "ArrowUp") {
-        moved = slideUp(); // Yukarı kaydırma işlemini yap
+        moved = slideUp(); // Perform up slide
     }
     else if (e.code == "ArrowDown") {
-        moved = slideDown(); // Aşağı kaydırma işlemini yap
+        moved = slideDown(); // Perform down slide
     }
     if (moved) {
         if (checkGameOver()) {
-            return; // Oyun bitti mi kontrol et
+            return; // Check if the game is over
         }
-        setTwo(); // Yeni "2" ekle
+        setTwo(); // Add a new "2"
     }
-    document.getElementById("score").innerText = score; // Puanı güncelle
+    document.getElementById("score").innerText = score; // Update the score
 })
 
-// Sıfır olmayan elemanları filtreler
+// Filters out non-zero elements
 function filterZero(row){
     return row.filter(num => num != 0);
 }
 
-// Bir satırı kaydırır ve birleştirir
+// Slides and merges a row
 function slide(row) {
-    row = filterZero(row); // Sıfırları kaldır
+    row = filterZero(row); // Remove zeros
     for (let i = 0; i < row.length - 1; i++) {
         if (row[i] == row[i + 1]) {
-            row[i] *= 2; // Aynı sayılar birleşir
-            row[i + 1] = 0; // Birleşen sayıyı sıfırla
-            score += row[i]; // Puanı güncelle
+            row[i] *= 2; // Combine equal numbers
+            row[i + 1] = 0; // Set combined number to zero
+            score += row[i]; // Update score
         }
     }
-    row = filterZero(row); // Sıfırları tekrar kaldır
+    row = filterZero(row); // Remove zeros again
     while (row.length < columns) {
-        row.push(0); // Satırı tamamla
+        row.push(0); // Fill the row
     }
     return row;
 }
 
-// Sol kaydırma işlemi
+// Performs left slide
 function slideLeft() {
     let moved = false;
     for (let r = 0; r < rows; r++) {
         let row = board[r];
-        let newRow = slide(row); // Satırı kaydır
+        let newRow = slide(row); // Slide the row
         if (!arraysEqual(newRow, row)) {
-            moved = true; // Satır değiştiyse hareket yapıldı
+            moved = true; // Row changed, movement occurred
         }
         board[r] = newRow;
         for (let c = 0; c < columns; c++) {
             let box = document.getElementById(r.toString() + "-" + c.toString());
             let num = board[r][c];
-            updateBox(box, num); // Kutuları güncelle
+            updateBox(box, num); // Update boxes
         }
     }
     return moved;
 }
 
-// Sağ kaydırma işlemi
+// Performs right slide
 function slideRight() {
     let moved = false;
     for (let r = 0; r < rows; r++) {
         let row = board[r];
-        row.reverse(); // Satırı ters çevir
-        let newRow = slide(row); // Satırı kaydır
-        newRow.reverse(); // Satırı tekrar düzelt
+        row.reverse(); // Reverse the row
+        let newRow = slide(row); // Slide the row
+        newRow.reverse(); // Reverse it back
         if (!arraysEqual(newRow, row)) {
-            moved = true; // Satır değiştiyse hareket yapıldı
+            moved = true; // Row changed, movement occurred
         }
         board[r] = newRow;
         for (let c = 0; c < columns; c++) {
             let box = document.getElementById(r.toString() + "-" + c.toString());
             let num = board[r][c];
-            updateBox(box, num); // Kutuları güncelle
+            updateBox(box, num); // Update boxes
         }
     }
     return moved;
 }
 
-// Yukarı kaydırma işlemi
+// Performs up slide
 function slideUp() {
     let moved = false;
     for (let c = 0; c < columns; c++) {
         let row = [board[0][c], board[1][c], board[2][c], board[3][c]];
-        let newRow = slide(row); // Sütunu kaydır
+        let newRow = slide(row); // Slide the column
         if (!arraysEqual(newRow, row)) {
-            moved = true; // Sütun değiştiyse hareket yapıldı
+            moved = true; // Column changed, movement occurred
         }
         for (let r = 0; r < rows; r++) {
-            board[r][c] = newRow[r]; // Tahtayı güncelle
+            board[r][c] = newRow[r]; // Update the board
             let box = document.getElementById(r.toString() + "-" + c.toString());
             let num = board[r][c];
-            updateBox(box, num); // Kutuları güncelle
+            updateBox(box, num); // Update boxes
         }
     }
     return moved;
 }
 
-// Aşağı kaydırma işlemi
+// Performs down slide
 function slideDown() {
     let moved = false;
     for (let c = 0; c < columns; c++) {
         let row = [board[0][c], board[1][c], board[2][c], board[3][c]];
-        row.reverse(); // Sütunu ters çevir
-        let newRow = slide(row); // Sütunu kaydır
-        newRow.reverse(); // Sütunu tekrar düzelt
+        row.reverse(); // Reverse the column
+        let newRow = slide(row); // Slide the column
+        newRow.reverse(); // Reverse it back
         if (!arraysEqual(newRow, row)) {
-            moved = true; // Sütun değiştiyse hareket yapıldı
+            moved = true; // Column changed, movement occurred
         }
         for (let r = 0; r < rows; r++) {
-            board[r][c] = newRow[r]; // Tahtayı güncelle
+            board[r][c] = newRow[r]; // Update the board
             let box = document.getElementById(r.toString() + "-" + c.toString());
             let num = board[r][c];
-            updateBox(box, num); // Kutuları güncelle
+            updateBox(box, num); // Update boxes
         }
     }
     return moved;
 }
 
-// Boş bir "2" ekler
+// Adds a zero in an empty tile
 function setTwo() {
     if (!hasEmptyTile()) {
-        return; // Boş yer yoksa çık
+        return; // Exit if no empty tiles
     }
     let found = false;
     while (!found) {
         let r = Math.floor(Math.random() * rows);
         let c = Math.floor(Math.random() * columns);
         if (board[r][c] == 0) {
-            board[r][c] = 2; // Boş bir yere "2" ekle
+            board[r][c] = 2; // Add "2" to an empty spot
             let box = document.getElementById(r.toString() + "-" + c.toString());
-            updateBox(box, 2); // Kutuyu güncelle
+            updateBox(box, 2); // Update the box
             found = true;
         }
     }
 }
 
-// Tahtada boş yer olup olmadığını kontrol eder
+// Checks if there are any empty tiles on the board
 function hasEmptyTile() {
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < columns; c++) {
             if (board[r][c] == 0) {
-                return true; // Boş yer varsa true döndür
+                return true; // Return true if there is an empty tile
             }
         }
     }
-    return false; // Boş yer yoksa false döndür
+    return false; // Return false if there are no empty tiles
 }
 
-// İki diziyi karşılaştırır
+// Compares two arrays
 function arraysEqual(a, b) {
     return JSON.stringify(a) === JSON.stringify(b);
 }
 
-// Oyun bitip bitmediğini kontrol eder
+// Checks if the game is over
 function checkGameOver() {
     if (hasEmptyTile()) {
-        return false; // Boş yer varsa oyun bitmemiştir
+        return false; // The game is not over if there are empty tiles
     }
 
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < columns - 1; c++) {
             if (board[r][c] === board[r][c + 1]) {
-                return false; // Yan yana eşleşen numara varsa oyun bitmemiştir
+                return false; // The game is not over if there are matching numbers next to each other
             }
         }
     }
@@ -243,23 +243,23 @@ function checkGameOver() {
     for (let c = 0; c < columns; c++) {
         for (let r = 0; r < rows - 1; r++) {
             if (board[r][c] === board[r + 1][c]) {
-                return false; // Üst üste eşleşen numara varsa oyun bitmemiştir
+                return false; // The game is not over if there are matching numbers on top of each other
             }
         }
     }
 
-    document.getElementById("final-score").innerText = score; // Son puanı göster
-    document.getElementById("game-container").style.display = "none"; // Oyun ekranını gizle
-    document.getElementById("game-over-screen").style.display = "flex"; // Oyun bitti ekranını göster
+    document.getElementById("final-score").innerText = score; // Display the final score
+    document.getElementById("game-container").style.display = "none"; // Hide the game screen
+    document.getElementById("game-over-screen").style.display = "flex"; // Show the game over screen
     let highScore = localStorage.getItem('highScore') || 0;
     if (score > highScore) {
-        localStorage.setItem('highScore', score); // Yeni yüksek skoru kaydet
-        document.getElementById("highScore").innerText = score; // Yüksek puanı güncelle
+        localStorage.setItem('highScore', score); // Save the new high score
+        document.getElementById("highScore").innerText = score; // Update the high score
     }
     return true;
 }
 
-// Oyunu yeniden başlatır
+// Restarts the game
 function restartGame() {
     startGame();
 }
