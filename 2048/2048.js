@@ -1,7 +1,7 @@
-var board; // Game board (2D array)
-var score = 0; // Player's score
-var rows = 4; // Number of rows
-var columns = 4; // Number of columns
+let board; // Game board (2D array)
+let score = 0; // Player's score
+let rows = 4; // Number of rows
+let columns = 4; // Number of columns
 
 // Runs when the page is loaded
 window.onload = function() {
