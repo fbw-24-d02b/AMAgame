@@ -182,6 +182,8 @@ hr {
 .box-4096 { background-color: #fe3d3d; color: white; } /* 4096 kutusu */
 .box-8192 { background-color: #ff2020; color: white; } /* 8192 kutusu */
 
+
+
 /* Başlangıç ekranı stil ayarları */
 #start-screen {
     text-align: center; /* Başlangıç ekranındaki metni ortalar */
@@ -198,3 +200,4 @@ hr {
     text-align: center; /* Oyun bitti ekranındaki metni ortalar */
     padding: 20px; /* Ekranın etrafına iç boşluk ekler */
 }
+
